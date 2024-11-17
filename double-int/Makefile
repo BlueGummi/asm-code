@@ -13,7 +13,7 @@ ifeq ($(ARCH), x86_64)
     all: $(OUTPUT)
 
     $(OBJ): $(SRC)
-	$(ASM) $(ASMFLAGS) $(SRC) -o $(OBJ)
+	rm -f $(OUTPUT) && $(ASM) $(ASMFLAGS) $(SRC) -o $(OBJ)
 
     $(OUTPUT): $(OBJ)
 	$(LD) $(LDFLAGS) $(OUTPUT) $(OBJ) && rm -f $(OBJ)
