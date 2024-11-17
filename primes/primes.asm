@@ -3,7 +3,7 @@ section .data
     format db '%d', 0xA, 0
 
 section .bss
-    prime_numbers resd 500 
+    prime_numbers resd 500
 
 section .text
     extern printf
@@ -18,13 +18,11 @@ _start:
     mov ebx, 2
 
 next_prime:
-    push ebx    
+    push ebx
     call is_prime
     add esp, 4
-
     cmp eax, 1
     jne not_prime
-
     mov [prime_numbers + ecx*4], ebx
 
     push ebx
@@ -42,7 +40,7 @@ next_number:
     jmp next_prime
 
     mov eax, 1
-    xor ebx, ebx 
+    xor ebx, ebx
     int 0x80
 
 is_prime:
@@ -51,19 +49,24 @@ is_prime:
     cmp ebx, 2
     je prime_return
 
-    mov edi, 2
-    jmp check_loop
+    test ebx, 1
+    jz not_prime_return
+
+    mov edi, 3
 
 check_loop:
+    mov eax, edi
+    mul edi
+    cmp eax, ebx
+    jg prime_return
     mov edx, 0
     mov eax, ebx
     div edi
     cmp edx, 0
     je not_prime_return
 
-    inc edi
-    cmp edi, eax
-    jl check_loop
+    add edi, 2
+    jmp check_loop
 
 prime_return:
     mov eax, 1
