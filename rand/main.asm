@@ -1,7 +1,7 @@
 section .data
-    msg db 'Random number: ', 0
+    msg dq 'Random number: ', 0
     msg_len equ $ - msg
-    newline db 10
+    newline dq 10
 section .bss
     random_number resb 4
 
@@ -18,10 +18,6 @@ _start:
     syscall
     mov rax, [random_number]
     call print_number
-    mov rax, 35
-    lea rdi, [tv_nsec]
-    xor rsi, rsi
-    syscall
     mov rax, 1
     mov rdi, 1
     mov rsi, newline
@@ -52,6 +48,3 @@ print_number:
     syscall
     ; newline
     ret
-
-section .data
-    tv_nsec dq 500000000
