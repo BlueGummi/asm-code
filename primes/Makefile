@@ -1,4 +1,20 @@
-all:
-	nasm -f elf32 primes.asm -o primes.o && ld -m elf_i386 -o primes primes.o -lc -dynamic-linker /lib/ld-linux.so.2 && rm primes.o
+ASM=nasm
+GCC=gcc
+OBJ=primes.o
+EXEC=primes
+ASMFLAGS=-f elf32
+GCCFLAGS=-m32 -no-pie
+
+all: $(EXEC)
+
+$(EXEC): $(OBJ)
+	$(GCC) $(GCCFLAGS) -o $@ $^
+	rm $(OBJ)
+
+$(OBJ): primes.asm
+	$(ASM) $(ASMFLAGS) $< -o $@
+
 clean:
-	rm -rf primes && rm -rf primes.o
+	rm -f $(EXEC) $(OBJ)
+
+.PHONY: all clean

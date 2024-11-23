@@ -7,9 +7,9 @@ section .bss
 
 section .text
     extern printf
-    global _start
+    global main
 
-_start:
+main:
     push primes_msg
     call printf
     add esp, 4
