@@ -1,7 +1,7 @@
 section .data
     msg db 'Random number: ', 0
     msg_len equ $ - msg
-    
+    newline db 10
 section .bss
     random_number resb 4
 
@@ -17,7 +17,16 @@ _start:
     mov rdx, msg_len    ; message length
     syscall
     mov rax, [random_number]
-    call print_number 
+    call print_number
+    mov rax, 35
+    lea rdi, [tv_nsec]
+    xor rsi, rsi
+    syscall
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, newline
+    mov rdx, 1
+    syscall
     mov rax, 60         ; syscall: exit
     xor rdi, rdi        ; exit code 0
     syscall
@@ -42,12 +51,7 @@ print_number:
     mov rdx, rcx      
     syscall
     ; newline
-    mov rax, 1 
-    mov rdi, 1 
-    lea rsi, [newline]
-    mov rdx, 1 
-    syscall
     ret
 
 section .data
-    newline db 10 
+    tv_nsec dq 500000000
