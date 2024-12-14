@@ -24,4 +24,9 @@ loop:
     mov ebx, ecx ; y = z
     mov [x], eax
     mov [y], ebx
+    jo end
     call loop
+end:
+    mov eax, 1
+    xor ebx, ebx
+    int 0x80
