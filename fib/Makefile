@@ -1,15 +1,14 @@
 ASM=nasm
 CC=gcc
-ASMFLAGS=-f elf32 -g
-CCFLAGS=-m32 -no-pie
-SRC=main.asm
-OBJ=main.o
-OUTPUT=main
+ASMFLAGS=-f elf32 
+CCFLAGS=-m32 -no-pie -z noexecstack 
+SRC=fib.asm
+OBJ=fib.o
+OUTPUT=fib
+MAKEFLAGS += --quiet
 
-# check if we are x64 architecture
 ARCH=$(shell uname -m)
 ifeq ($(ARCH), x86_64)
-    # architecture is correct, proceed with the build
     all: $(OUTPUT)
 
     $(OBJ): $(SRC)
@@ -17,11 +16,10 @@ ifeq ($(ARCH), x86_64)
 
     $(OUTPUT): $(OBJ)
 	$(CC) -o $(OUTPUT) $(OBJ) $(CCFLAGS) && rm -f $(OBJ)
-
+	@echo "Run ./fib"
     clean:
 	rm -f $(OBJ) $(OUTPUT)
 else
-    # architecture is not x64, terminate
     all:
 	@echo "Error: This program is intended for x64 architecture only."
 	@exit 1

@@ -1,7 +1,7 @@
 section .data
     x dd 0
     y dd 0
-    format db '%d', 0xA, 0
+    format db '%d', 10, 0
 section .text
     extern printf
     global main
@@ -13,6 +13,7 @@ main:
     mov ecx, 0
     call loop
 loop:
+    pop edx
     push ecx
     push format
     call printf
@@ -27,6 +28,7 @@ loop:
     jo end
     call loop
 end:
+    pop edx
     mov eax, 1
     xor ebx, ebx
     int 0x80

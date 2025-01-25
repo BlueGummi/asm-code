@@ -5,11 +5,10 @@ LDFLAGS=-o
 SRC=main.asm
 OBJ=main.o
 OUTPUT=main
+MAKEFLAGS += --quiet
 
-# check if we are x64 architecture
 ARCH=$(shell uname -m)
 ifeq ($(ARCH), x86_64)
-    # architecture is correct, proceed with the build
     all: $(OUTPUT)
 
     $(OBJ): $(SRC)
@@ -17,11 +16,11 @@ ifeq ($(ARCH), x86_64)
 
     $(OUTPUT): $(OBJ)
 	$(LD) $(LDFLAGS) $(OUTPUT) $(OBJ) && rm -f $(OBJ)
+	@echo "Run ./main"
 
     clean:
 	rm -f $(OBJ) $(OUTPUT)
 else
-    # architecture is not x64, terminate
     all:
 	@echo "Error: This program is intended for x64 architecture only."
 	@exit 1

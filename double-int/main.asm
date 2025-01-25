@@ -25,7 +25,7 @@ _start:
     mov ebx, 0          ; file descriptor 0 (stdin)
     mov ecx, buffer     ; buffer to store input
     mov edx, 256        ; maximum number of bytes to read
-    int 0x80            ; call kernel
+    int 128             ; call kernel
 
     ; convert input string to integer
     mov ecx, buffer     ; ecx points to the input string
@@ -36,7 +36,7 @@ _start:
     test ebx, ebx         ; check for null terminator
     jz .done               ; if zero, we are done
     cmp ebx, 10           ; check if it's a newline
-    je .done               ; if newline, we are done
+    jz .done               ; if newline, we are done
 
     sub ebx, '0'          ; convert ascii to integer
     imul eax, eax, 10     ; multiply eax by 10 (shift left)
